@@ -74,9 +74,9 @@ class Application(tk.Frame):
                 self.click_count += 1
                 time.sleep(click_rate)
                 print('CLICK')
-            except pyautogui.PyAutoGUIException():
+            except pyautogui.PyAutoGUIException:
                 # emergency stop (move mouse to one of the corners)
-                exit(1)
+                self.stop_clicking_thread()
         self.flag = True
 
     def show_click_count(self):
