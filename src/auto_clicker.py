@@ -10,6 +10,7 @@ import time
 import threading
 
 DEFAULT_CLICK_RATE = 1
+INITIAL_SLEEP = 2
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -66,6 +67,7 @@ class Application(tk.Frame):
         if not click_rate:
             click_rate = DEFAULT_CLICK_RATE
         click_rate = click_rate ** -1
+        time.sleep(INITIAL_SLEEP)
         while self.flag:
             try:
                 pyautogui.click()
