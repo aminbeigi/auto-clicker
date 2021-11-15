@@ -3,11 +3,13 @@ A simple autocliker.
 """
 
 import tkinter as tk
+from tkinter.constants import ANCHOR
 from tkinter.messagebox import showinfo 
 import pyautogui
 import time
+import threading
 
-running = False
+DEFAULT_CLICK_RATE = 1
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -18,13 +20,16 @@ class Application(tk.Frame):
 
         self.keep_clicking = True
         self.click_count = 0
+        self.flag = True
 
     def create_widgets(self):
         # row 0
-        self.fast_btn = tk.Entry(self, font='arial 24', bg='red', width=10)
-        self.fast_btn.grid(row=0, column=0, columnspan=2, sticky='e')
+        self.click_rate_listbox = tk.Listbox(self)
+        self.click_rate_listbox.insert(0,1,2,3,4,5)
+        self.click_rate_listbox.grid(row=0, column=0, columnspan=2, sticky='e')
 
-        self.start_btn = tk.Button(self, text="start",  font='arial 72', bg='lime', width=10, height=2, command=self.start_btn_clicked)
+        #self.start_btn = tk.Button(self, text="start",  font='arial 72', bg='lime', width=10, height=2, command=self.start_btn_clicked)
+        self.start_btn = tk.Button(self, text="start",  font='arial 72', bg='lime', width=10, height=2, command=self.start_clicking_thread)
         self.start_btn.grid(row=0, column=3, columnspan=2)
 
         self.empty_column_label = tk.Label(self, text=1*' ', bg='black', font='arial 48')
@@ -41,22 +46,41 @@ class Application(tk.Frame):
         self.about_btn = tk.Button(self, text="about",  font='arial 48', command=self.show_about)
         self.about_btn.grid(row=2, column=3, columnspan=2)        
 
+    def start_clicking_thread(self): 
+        thread = threading.Thread(target=self.start_btn_clicked)
+        thread.start()
+
+    def stop_clicking_thread(self): 
+        self.flag = False
+        self.start_btn.destroy()
+
+        self.start_btn = tk.Button(self, text="start",  font='arial 72', bg='lime', width=10, height=2, command=self.start_clicking_thread)
+        self.start_btn.grid(row=0, column=3, columnspan=2)
+
+        print("STOP RUNNING THREAD")
 
     def start_btn_clicked(self):
-        self.start_btn = tk.Button(self, text="stop", font='arial 72', bg='red', width=10, height=2)
-        self.start_btn.grid(row=0, column=3, columnspan=2, sticky='w')
+        self.stop_btn = tk.Button(self, text="stop", font='arial 72', bg='red', width=10, height=2, command=self.stop_clicking_thread)
+        self.stop_btn.grid(row=0, column=3, columnspan=2, sticky='w')
 
-        while running:
-            time.sleep(3)
-            pyautogui.click()
+        click_rate = self.click_rate_listbox.get(ANCHOR)
+        if not click_rate:
+            click_rate = DEFAULT_CLICK_RATE
+
+        while self.flag:
+            time.sleep(0.5)
+            ##pyautogui.click()
+            print("CLICK")
             self.click_count += 1
-            print(self.click_count)
+
+        self.flag = True
+
     
     def show_click_count(self):
         showinfo('Statistics', f"Click count: {self.click_count}")
 
     def show_about(self):
-        showinfo('speed', f"Fast: 2 clicks a second\nNormal: 2 clicks every 4 second")
+        showinfo('speed', f"blah")
     
 
 # entry to program
