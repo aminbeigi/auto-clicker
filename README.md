@@ -14,7 +14,7 @@
 
 ## Description
 A simple auto clicker created using pyautogui and tkinter for the GUI.  
-The program uses multithreading to make the main application reponsive while we wait in between clicks.
+The program uses multithreading so the main application is always responsive while we wait in between clicks.
 
 ## Demo
 <img src="assets/demo.gif"/>
