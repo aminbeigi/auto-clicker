@@ -1,5 +1,5 @@
 '''
-A simple auto cliker.
+A simple auto cliker with a nice little UI.
 '''
 
 import tkinter as tk
@@ -58,7 +58,6 @@ class Application(tk.Frame):
         self.flag = False
         self.start_btn.destroy()
         self.create_start_btn()
-        print('STOP RUNNING THREAD')
 
     def start_btn_clicked(self):
         self.create_stop_btn()
@@ -66,16 +65,15 @@ class Application(tk.Frame):
         click_rate = self.click_rate_listbox.get(ANCHOR)
         if not click_rate:
             click_rate = DEFAULT_CLICK_RATE
-        click_rate = click_rate ** -1
+        click_rate **= -1
         time.sleep(INITIAL_SLEEP)
         while self.flag:
             try:
                 pyautogui.click()
                 self.click_count += 1
                 time.sleep(click_rate)
-                print('CLICK')
             except pyautogui.PyAutoGUIException:
-                # emergency stop (move mouse to one of the corners)
+                # emergency stop (move mouse to any corner of screen)
                 self.stop_clicking_thread()
         self.flag = True
 
