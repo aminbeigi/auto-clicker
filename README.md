@@ -13,8 +13,8 @@
 </p>
 
 ## Description
-A simple auto clicker created using pyautogui and tkinter for the GUI.  
-The program uses multithreading so the main application is always responsive while we wait in between clicks.
+A simple auto clicker created using pyautogui and tkinter for the GUI. The program uses multithreading so the main application is always responsive while we wait in between clicks.  
+An alternative way to stop the auto clicker is to place your mouse in any of the four corners of the screen.
 
 ## Demo
 <img src="assets/demo.gif"/>
